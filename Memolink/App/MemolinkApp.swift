@@ -4,7 +4,8 @@ import SwiftUI
 struct MemolinkApp: App {
   var body: some Scene {
     WindowGroup {
-      EmptyView()
+//      EmptyView()
+      OnboardingOverlay()
     }
   }
 }

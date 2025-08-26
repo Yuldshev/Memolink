@@ -35,6 +35,7 @@ struct ComponentView<Content: View>: View {
         Spacer()
         PrimaryActionButton(
           title: buttonName,
+          color: true,
           isEnabled: isEnabled,
           isLoading: isLoading,
           action: action

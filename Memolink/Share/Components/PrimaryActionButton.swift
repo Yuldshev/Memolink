@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PrimaryActionButton: View {
   var title: LocalizedStringKey
+  var color: Bool
   var isEnabled: Bool
   var isLoading: Bool
   var action: () -> Void
@@ -21,7 +22,7 @@ struct PrimaryActionButton: View {
         }
       }
         .frame(maxWidth: .infinity, minHeight: 56)
-        .background(buttonBG)
+        .background(color ? buttonBGPrimary : buttonBGGray)
         .clipShape(Capsule())
         .scaleEffect(isPressed ? 0.95 : 1)
     }
@@ -49,11 +50,18 @@ struct PrimaryActionButton: View {
     .disabled(!isEnabled || isLoading)
   }
 
-  private var buttonBG: Color {
+  private var buttonBGPrimary: Color {
     if !isEnabled || isLoading {
       return .neutral600
     }
     return isPressed ? .primary600 : .primary500
+  }
+  
+  private var buttonBGGray: Color {
+    if !isEnabled || isLoading {
+      return .neutral600
+    }
+    return isPressed ? .neutral800 : .neutral700
   }
 }
 
@@ -67,6 +75,7 @@ struct PrimaryActionButton: View {
     VStack {
       PrimaryActionButton(
         title: "Login",
+        color: true,
         isEnabled: isEnabled,
         isLoading: isLoading
       ) {}
