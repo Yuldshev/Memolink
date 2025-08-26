@@ -10,9 +10,22 @@
 		131D09B32E5C6BFF0078D42A /* Memolink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memolink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		131D0B812E5D75240078D42A /* Exceptions for "Memolink" folder in "Memolink" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Share/Resources/Info.plist,
+			);
+			target = 131D09B22E5C6BFF0078D42A /* Memolink */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		131D09B52E5C6BFF0078D42A /* Memolink */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				131D0B812E5D75240078D42A /* Exceptions for "Memolink" folder in "Memolink" target */,
+			);
 			path = Memolink;
 			sourceTree = "<group>";
 		};
@@ -279,6 +292,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Memolink/Share/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Memolink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -314,6 +328,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Memolink/Share/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Memolink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

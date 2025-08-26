@@ -1,0 +1,100 @@
+## Xcode
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+build/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved   # ⚡️ лучше хранить в репо
+
+## CocoaPods
+Pods/
+
+## Carthage
+Carthage/Build/
+Carthage/Checkouts
+
+## Accio
+Dependencies/
+.accio/
+
+## fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+## Code Injection
+iOSInjectionProject/
+
+## SwiftUI
+*.preview-thumbnails
+
+## macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+## IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## Temporary files
+*.tmp
+*.temp
+*~.nib
+*.lock
+
+## Logs
+*.log
+
+## Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+## Coverage
+coverage/
+
+## Node.js
+node_modules/
+
+## Archives
+*.zip
+*.tar.gz
+*.rar
+
+## Simulator
+Library/Developer/CoreSimulator/
