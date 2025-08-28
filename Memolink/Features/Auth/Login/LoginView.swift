@@ -1,27 +1,41 @@
 import SwiftUI
 
 struct LoginView: View {
-  @State private var phone = "+998"
-  @State private var password = ""
-
+  @State private var vm: LoginVM
   @FocusState private var focusField: Field?
 
+  init(coordinator: AppCoordinator) {
+    self._vm = State(wrappedValue: LoginVM(coordinator: coordinator))
+  }
+  
   var body: some View {
     ComponentView(
       title: "Login",
       subtitle: "Enter your phone number and password to sign in",
       buttonName: "Verify",
-      isEnabled: true,
-      isLoading: false,
+      isEnabled: vm.isValid,
+      isLoading: vm.isLoading,
       iconType: .icon(Image(.iconUser)),
-      action: {},
+      action: { vm.login() },
       content: {
         VStack(spacing: 24) {
-          LabelTextField(title: "Phone number", text: $phone, textContentType: .telephoneNumber)
+          LabelTextField(
+            title: "Phone number",
+            text: $vm.displayPhone,
+            textContentType: .telephoneNumber
+          )
             .focused($focusField, equals: .phone)
             .submitLabel(.next)
             .onSubmit { focusField = .pass }
-          LabelTextField(title: "Password", text: $password, textContentType: .password)
+            .onChange(of: vm.displayPhone) { _, newValue in
+              vm.updatePhone(newValue)
+            }
+          
+          LabelTextField(
+            title: "Password",
+            text: $vm.password,
+            textContentType: .password
+          )
             .focused($focusField, equals: .pass)
             .submitLabel(.done)
             .onSubmit { focusField = nil }
@@ -38,5 +52,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  LoginView()
+  LoginView(coordinator: AppCoordinator())
 }

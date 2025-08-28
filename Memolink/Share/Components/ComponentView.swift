@@ -40,6 +40,7 @@ struct ComponentView<Content: View>: View {
           isLoading: isLoading,
           action: action
         )
+        .padding(.bottom, 8)
       }
       .padding(.top, 100)
       .padding(.horizontal, 16)

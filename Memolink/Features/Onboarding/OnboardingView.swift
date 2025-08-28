@@ -3,7 +3,8 @@ import SwiftUI
 struct OnboardingView: View {
   @State private var locale: LocaleApp = .en
   @State private var showSelectLocale = false
-
+  @Environment(OnboardingRouter.self) private var router
+  
   var body: some View {
     ZStack {
       OnboardingOverlay()
@@ -17,21 +18,21 @@ struct OnboardingView: View {
             .foregroundStyle(.neutral300)
             .customFont(weight: .regular, size: 18)
         }
-
+        
         VStack(spacing: 12) {
           PrimaryActionButton(
             title: "Sign Up",
             color: true,
             isEnabled: true,
             isLoading: false
-          ) {}
-
+          ) { router.navigate(to: .phoneNumber) }
+          
           PrimaryActionButton(
             title: "Sign In",
             color: false,
             isEnabled: true,
             isLoading: false
-          ) {}
+          ) { router.navigate(to: .login)}
         }
       }
       .padding(.horizontal, 16)
@@ -44,7 +45,7 @@ struct OnboardingView: View {
         .presentationDragIndicator(.visible)
     }
   }
-
+  
   private var buttonLocale: some View {
     Button { showSelectLocale.toggle() } label: {
       HStack {
