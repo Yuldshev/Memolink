@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct InformationView: View {
-  @State private var vm = InformationVM()
+  @State private var vm: InformationVM
   @FocusState private var focusedField: Field?
-  @Environment(OnboardingRouter.self) private var router
+  
+  init(router: OnboardingRouter) {
+    self._vm = State(wrappedValue: InformationVM(router: router))
+  }
 
   var body: some View {
     ComponentView(
@@ -13,7 +16,7 @@ struct InformationView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .imagePicker($vm.avatar),
-      action: { router.completeRegistation() },
+      action: { vm.complete() },
       content: {
         VStack(spacing: 24) {
           LabelTextField(title: "First name", text: $vm.firstName, textContentType: .givenName)
@@ -41,6 +44,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  InformationView()
-    .environment(OnboardingRouter(coordinator: AppCoordinator()))
+  InformationView(router: OnboardingRouter(coordinator: AppCoordinator()))
 }

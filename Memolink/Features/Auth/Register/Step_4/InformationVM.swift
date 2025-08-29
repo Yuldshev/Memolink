@@ -7,7 +7,9 @@ final class InformationVM {
   var lastName = ""
   var email = ""
   var isLoading = false
+  var errorMessage: String?
   
+  // MARK: - Valide
   var isValid: Bool {
     return !firstName.isEmpty && !lastName.isEmpty && isValidEmail(email)
   }
@@ -18,4 +20,45 @@ final class InformationVM {
     return predicate.evaluate(with: email)
   }
   
+  // MARK: - Router
+  private let router: OnboardingRouter
+  
+  init(router: OnboardingRouter) {
+    self.router = router
+  }
+  
+  func complete() {
+    guard isValid else { return }
+    
+    isLoading = true
+    errorMessage = nil
+    
+    Task { @MainActor in
+      do {
+        router.store.firstName = firstName
+        router.store.lastName = lastName
+        router.store.email = email
+        router.store.avatar = avatar?.pngData()
+        
+        try await performRegistration()
+        
+        router.navigateToRoot()
+        router.coordinator.onboardingDidCompleteRegistration()
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+      isLoading = false
+    }
+    
+  }
+  
+  private func performRegistration() async throws {
+    guard router.store.isDataComplete else {
+      throw RegisterError.incompleteData
+    }
+    
+    let user = router.store.createUser()
+    await router.authService.register(user)
+    router.store.reset()
+  }
 }

@@ -5,21 +5,33 @@ final class AuthService {
   static let shared = AuthService()
   var currentUser: User?
   
-  private init() {
-    Task { await loadUser() }
-  }
+  private init() {}
   
   private let cache = CacheService.shared
   
-  func loadUser() async -> User? {
-    return await cache.loadCache(key: "user_cache", as: User.self)
+  func register(_ user: User) async {
+    await cache.saveCache(user, key: "user_cache")
   }
   
-  func login(user: User) {
-    currentUser = user
-    Task {
-      await saveUser(user)
+  func loadCurrentUser() async {
+    currentUser = await cache.loadCache(key: "user_cache", as: User.self)
+  }
+  
+  func login(phone: String, password: String) async throws -> User {
+    guard let cachedUser = await cache.loadCache(key: "user_cache", as: User.self) else {
+      throw AuthError.userNotFound
     }
+    
+    guard cachedUser.phone == phone else {
+      throw AuthError.userNotFound
+    }
+    
+    guard cachedUser.password == password else {
+      throw AuthError.invalidPassword
+    }
+    
+    currentUser = cachedUser
+    return cachedUser
   }
   
   func logout() {
@@ -29,7 +41,17 @@ final class AuthService {
     }
   }
   
-  private func saveUser(_ user: User) async {
-    await cache.saveCache(user, key: "user_cache")
+  enum AuthError: Error, LocalizedError {
+    case userNotFound
+    case invalidPassword
+    
+    var errorDescription: String? {
+      switch self {
+      case .userNotFound:
+        return "User not found"
+      case .invalidPassword:
+        return "Invalid password"
+      }
+    }
   }
 }

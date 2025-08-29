@@ -10,6 +10,16 @@ final class VerificationCodeVM {
   var timeRemaining = 60
   private var timer: Timer?
   
+  private let router: OnboardingRouter
+  
+  init(router: OnboardingRouter) {
+    self.router = router
+  }
+  
+  func next() {
+    router.navigate(to: .password)
+  }
+  
   func startTimer() {
     guard timer == nil else { return }
     

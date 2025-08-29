@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-final class AppCoordinator: OnboardingRouterDelegate {
+final class AppCoordinator {
   var appState: AppState = .splash
   
   enum AppState {
@@ -12,10 +12,6 @@ final class AppCoordinator: OnboardingRouterDelegate {
   
   init() { startAppFlow() }
   
-  func userDidLogout() {
-    appState = .onboarding
-  }
-  
   func onboardingDidCompleteRegistration() {
     appState = .onboarding
   }
@@ -24,9 +20,16 @@ final class AppCoordinator: OnboardingRouterDelegate {
     appState = .main
   }
   
+  func userDidLogout() {
+    authService.logout()
+    appState = .onboarding
+  }
+  
   private func startAppFlow() {
     Task { @MainActor in
       try? await Task.sleep(for: .seconds(2))
+      
+      await authService.loadCurrentUser()
       
       if authService.currentUser == nil {
         appState = .onboarding

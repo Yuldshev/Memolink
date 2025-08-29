@@ -1,11 +1,18 @@
 import SwiftUI
 
 struct MainView: View {
+  var coordinator: AppCoordinator
+  
   var body: some View {
-    Text("Main View")
+    VStack {
+      Text("Main View")
+      Button("Log out") {
+        coordinator.userDidLogout()
+      }
+    }
   }
 }
 
 #Preview {
-  MainView()
+  MainView(coordinator: AppCoordinator())
 }

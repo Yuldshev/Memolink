@@ -4,8 +4,8 @@ struct LoginView: View {
   @State private var vm: LoginVM
   @FocusState private var focusField: Field?
 
-  init(coordinator: AppCoordinator) {
-    self._vm = State(wrappedValue: LoginVM(coordinator: coordinator))
+  init(router: OnboardingRouter) {
+    self._vm = State(wrappedValue: LoginVM(router: router))
   }
   
   var body: some View {
@@ -52,5 +52,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  LoginView(coordinator: AppCoordinator())
+  LoginView(router: OnboardingRouter(coordinator: AppCoordinator()))
 }

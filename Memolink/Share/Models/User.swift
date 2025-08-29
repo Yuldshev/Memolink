@@ -6,4 +6,9 @@ struct User: Codable {
   let lastName: String
   let email: String
   let password: String
+  let avatar: Data?
+  
+  var image: UIImage? {
+    avatar.flatMap { UIImage(data: $0) }
+  }
 }

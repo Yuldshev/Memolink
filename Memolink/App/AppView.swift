@@ -11,7 +11,7 @@ struct AppView: View {
       case .onboarding:
           OnboardingFlow(coordinator: coordinator)
       case .main:
-          MainView()
+          MainView(coordinator: coordinator)
       }
     }
     .animation(.easeInOut(duration: 0.3), value: coordinator.appState)

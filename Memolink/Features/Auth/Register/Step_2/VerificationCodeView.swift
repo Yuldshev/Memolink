@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct VerificationCodeView: View {
-  @State private var vm = VerificationCodeVM()
-  @Environment(OnboardingRouter.self) private var router
+  @State private var vm: VerificationCodeVM
+  
+  init(router: OnboardingRouter) {
+    self._vm = State(wrappedValue: VerificationCodeVM(router: router))
+  }
   
   var body: some View {
     ComponentView(
@@ -12,7 +15,7 @@ struct VerificationCodeView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconChat)),
-      action: { router.navigate(to: .password) },
+      action: { vm.next() },
       content: {
         VStack(spacing: 12) {
           VerificationInput(code: $vm.code)
@@ -38,6 +41,5 @@ struct VerificationCodeView: View {
 }
 
 #Preview {
-  VerificationCodeView()
-    .environment(OnboardingRouter(coordinator: AppCoordinator()))
+  VerificationCodeView(router: OnboardingRouter(coordinator: AppCoordinator()))
 }

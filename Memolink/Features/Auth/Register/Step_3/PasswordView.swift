@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct PasswordView: View {
-  @State private var vm = PasswordVM()
+  @State private var vm: PasswordVM
   @FocusState private var focusField: Field?
-  @Environment(OnboardingRouter.self) private var router
+  
+  init(router: OnboardingRouter) {
+    self._vm = State(wrappedValue: PasswordVM(router: router))
+  }
 
   var body: some View {
     ComponentView(
@@ -13,7 +16,7 @@ struct PasswordView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconLock)),
-      action: { router.navigate(to: .profile) },
+      action: { vm.next() },
       content: {
         VStack(spacing: 24) {
           VStack(spacing: 8) {
@@ -66,6 +69,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  PasswordView()
-    .environment(OnboardingRouter(coordinator: AppCoordinator()))
+  PasswordView(router: OnboardingRouter(coordinator: AppCoordinator()))
 }

@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct PhoneNumberView: View {
-  @State private var vm = PhoneNumberVM()
-  @Environment(OnboardingRouter.self) private var router
+  @State private var vm: PhoneNumberVM
+  
+  init(router: OnboardingRouter) {
+    self._vm = State(wrappedValue: PhoneNumberVM(router: router))
+  }
 
   var body: some View {
     ComponentView(
@@ -12,7 +15,7 @@ struct PhoneNumberView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconCall)),
-      action: { router.navigate(to: .verificationCode) },
+      action: { vm.next() },
       content: {
         LabelTextField(
           title: "Phone number",
@@ -29,6 +32,5 @@ struct PhoneNumberView: View {
 }
 
 #Preview {
-  PhoneNumberView()
-    .environment(OnboardingRouter(coordinator: AppCoordinator()))
+  PhoneNumberView(router: OnboardingRouter(coordinator: AppCoordinator()))
 }

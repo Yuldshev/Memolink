@@ -6,33 +6,13 @@ final class PasswordVM {
   var confirmPass = ""
   var isLoading = false
   
+  // MARK: - Validation
   var isValid: Bool {
     pass == confirmPass && isValidPass
   }
   
   var isValidPass: Bool {
     return validation.hasLetters && validation.hasNumbers && validation.isLongEnough
-  }
-  
-  var errorMessage: String? {
-    guard !pass.isEmpty else {
-      return "Password must contain letters, numbers and be longer than 8 characters"
-    }
-    
-    var errors: [String] = []
-    
-    if !validation.hasLetters { errors.append("letters") }
-    if !validation.hasNumbers { errors.append("numbers") }
-    if !validation.isLongEnough { errors.append("more than 8 characters") }
-    
-    if !errors.isEmpty {
-      return "Password must contain " + errors.joined(separator: ", ")
-    }
-    if !confirmPass.isEmpty && pass != confirmPass {
-      return "Passwords do not match"
-    }
-    
-    return nil
   }
   
   var passwordStrength: PasswordStrength {
@@ -58,6 +38,53 @@ final class PasswordVM {
       hasNumbers: pass.contains { $0.isNumber },
       isLongEnough: pass.count > 8
     )
+  }
+  
+  // MARK: - Error message
+  var errorMessage: String? {
+    guard !pass.isEmpty else {
+      return "Password must contain letters, numbers and be longer than 8 characters"
+    }
+    
+    var errors: [String] = []
+    
+    if !validation.hasLetters { errors.append("letters") }
+    if !validation.hasNumbers { errors.append("numbers") }
+    if !validation.isLongEnough { errors.append("more than 8 characters") }
+    
+    if !errors.isEmpty {
+      return "Password must contain " + errors.joined(separator: ", ")
+    }
+    if !confirmPass.isEmpty && pass != confirmPass {
+      return "Passwords do not match"
+    }
+    
+    return nil
+  }
+  
+  // MARK: - Router
+  private let router: OnboardingRouter
+  
+  init(router: OnboardingRouter) {
+    self.router = router
+  }
+  
+  func next() {
+    guard isValid else { return }
+    
+    isLoading = true
+    
+    Task { @MainActor in
+      if await checkPasswordAPI() {
+        router.store.password = pass
+        router.navigate(to: .profile)
+      }
+      isLoading = false
+    }
+  }
+  
+  private func checkPasswordAPI() async -> Bool {
+    return isValidPass
   }
 }
 

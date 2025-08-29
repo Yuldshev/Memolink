@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct OnboardingFlow: View {
-  @Environment(AppCoordinator.self) private var coordinator
   @State private var router: OnboardingRouter
   
   init(coordinator: AppCoordinator) {
@@ -13,13 +12,25 @@ struct OnboardingFlow: View {
       OnboardingView()
         .environment(router)
         .navigationDestination(for: OnboardingRouter.Flow.self) { flow in
-          router.makeView(for: flow)
-            .environment(coordinator)
-            .environment(router)
+          makeView(for: flow)
         }
     }
-    .environment(router)
-    .onAppear { router.delegate = coordinator }
+  }
+  
+  @ViewBuilder
+  private func makeView(for flow: OnboardingRouter.Flow) -> some View {
+    switch flow {
+    case .login:
+      LoginView(router: router)
+    case .phoneNumber:
+      PhoneNumberView(router: router)
+    case .verificationCode:
+      VerificationCodeView(router: router)
+    case .password:
+      PasswordView(router: router)
+    case .profile:
+      InformationView(router: router)
+    }
   }
 }
 
