@@ -1,17 +1,17 @@
 import SwiftUI
 
 struct OnboardingFlow: View {
-  @State private var router: OnboardingRouter
+  @State private var router: OnboardingCoordinator
   
   init(coordinator: AppCoordinator) {
-    self._router = State(wrappedValue: OnboardingRouter(coordinator: coordinator))
+    self._router = State(wrappedValue: OnboardingCoordinator(coordinator: coordinator))
   }
   
   var body: some View {
     NavigationStack(path: $router.path) {
       OnboardingView()
         .environment(router)
-        .navigationDestination(for: OnboardingRouter.Flow.self) { flow in
+        .navigationDestination(for: OnboardingCoordinator.Flow.self) { flow in
           makeView(for: flow)
         }
     }
@@ -31,7 +31,7 @@ struct OnboardingFlow: View {
   }
   
   @ViewBuilder
-  private func makeView(for flow: OnboardingRouter.Flow) -> some View {
+  private func makeView(for flow: OnboardingCoordinator.Flow) -> some View {
     switch flow {
     case .login:
       LoginView(router: router)

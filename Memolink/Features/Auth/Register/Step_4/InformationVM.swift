@@ -8,24 +8,15 @@ final class InformationVM {
   var email = ""
   var isLoading = false
   
-  // MARK: - Valide
-  var isValid: Bool {
-    return !firstName.isEmpty && !lastName.isEmpty && isValidEmail(email)
-  }
+  private let router: OnboardingCoordinator
+  private let authService: AuthServiceProtocol
   
-  private func isValidEmail(_ email: String) -> Bool {
-    let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-    let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-    return predicate.evaluate(with: email)
+  init(router: OnboardingCoordinator) {
+    self.router = router
+    self.authService = router.authService
   }
   
   // MARK: - Router
-  private let router: OnboardingRouter
-  
-  init(router: OnboardingRouter) {
-    self.router = router
-  }
-  
   func complete() {
     guard isValid else {
       router.showError("Please fill all fields correctly")
@@ -59,7 +50,18 @@ final class InformationVM {
     }
     
     let user = router.store.createUser()
-    await router.authService.register(user)
+    await authService.register(user)
     router.store.reset()
+  }
+  
+  // MARK: - Valide
+  var isValid: Bool {
+    return !firstName.isEmpty && !lastName.isEmpty && isValidEmail(email)
+  }
+  
+  private func isValidEmail(_ email: String) -> Bool {
+    let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+    let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+    return predicate.evaluate(with: email)
   }
 }

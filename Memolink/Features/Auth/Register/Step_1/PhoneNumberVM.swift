@@ -7,9 +7,9 @@ final class PhoneNumberVM: PhoneFormatter {
   var displayPhone: String = "+998"
   var isValid: Bool { rawPhone.count == 12 }
   
-  private let router: OnboardingRouter
+  private let router: OnboardingCoordinator
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self.router = router
   }
   

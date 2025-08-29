@@ -11,11 +11,12 @@ final class LoginVM: PhoneFormatter {
     !rawPhone.isEmpty && !password.isEmpty
   }
   
-  private let authService = AuthService.shared
-  private let router: OnboardingRouter
+  private let authService: AuthServiceProtocol
+  private let router: OnboardingCoordinator
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self.router = router
+    self.authService = router.authService
   }
   
   func login() {

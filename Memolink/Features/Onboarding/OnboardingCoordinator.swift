@@ -1,16 +1,18 @@
 import SwiftUI
 
 @Observable
-final class OnboardingRouter {
+final class OnboardingCoordinator {
   var path = NavigationPath()
   let store = RegisterManager()
-  let authService = AuthService.shared
-  let errorService = ErrorService()
-  
   let coordinator: AppCoordinator
   
-  init(coordinator: AppCoordinator) {
+  private let services: DIContainer
+  var authService: AuthServiceProtocol { services.authService }
+  var errorService: ErrorServiceProtocol { services.errorService }
+  
+  init(coordinator: AppCoordinator, services: DIContainer = .shared) {
     self.coordinator = coordinator
+    self.services = services
   }
   
   enum Flow: Hashable, Codable {

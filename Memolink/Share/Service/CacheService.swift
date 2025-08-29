@@ -4,7 +4,6 @@ protocol CacheServiceProtocol {
   func saveCache<T: Encodable>(_ data: T, key: String) async
   func loadCache<T: Decodable>(key: String, as type: T.Type) async -> T?
   func removeCache(for key: String) async
-  func clearAllCache() async
 }
 
 actor CacheService: CacheServiceProtocol {
@@ -33,10 +32,5 @@ actor CacheService: CacheServiceProtocol {
   
   func removeCache(for key: String) async {
     userDefaults.removeObject(forKey: key)
-  }
-  
-  func clearAllCache() async {
-    userDefaults.dictionaryRepresentation().keys
-      .forEach { userDefaults.removeObject(forKey: $0) }
   }
 }

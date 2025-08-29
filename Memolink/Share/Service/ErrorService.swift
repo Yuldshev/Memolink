@@ -1,7 +1,14 @@
 import SwiftUI
 
+protocol ErrorServiceProtocol {
+  var isShowingError: Bool { get }
+  var currentError: String? { get }
+  func showError(_ message: String)
+  func hideError()
+}
+
 @Observable
-final class ErrorService {
+final class ErrorService: ErrorServiceProtocol {
   var currentError: String?
   var isShowingError: Bool {
     currentError != nil

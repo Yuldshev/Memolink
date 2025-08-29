@@ -8,11 +8,11 @@ struct SplashView: View {
     ZStack {
       Color.black.ignoresSafeArea()
       
-      VStack(spacing: 24) {
+      VStack(spacing: 4) {
         Image(.iconLogo)
           .resizable()
           .scaledToFill()
-          .frame(width: 120, height: 120)
+          .frame(width: 140, height: 120)
           .foregroundStyle(.primary500)
           .scaleEffect(isAnimating ? 1 : 0.5)
           .opacity(isAnimating ? 1 : 0)

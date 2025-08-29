@@ -63,9 +63,9 @@ final class PasswordVM {
   }
   
   // MARK: - Router
-  private let router: OnboardingRouter
+  private let router: OnboardingCoordinator
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self.router = router
   }
   

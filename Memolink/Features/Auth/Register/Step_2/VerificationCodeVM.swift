@@ -10,9 +10,9 @@ final class VerificationCodeVM {
   var timeRemaining = 60
   private var timer: Timer?
   
-  private let router: OnboardingRouter
+  private let router: OnboardingCoordinator
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self.router = router
   }
   

@@ -7,6 +7,7 @@ struct ComponentView<Content: View>: View {
   var isEnabled: Bool
   var isLoading: Bool
   var iconType: IconType
+  var isPaddingTop: Bool
   var action: () -> Void
   var content: () -> Content
 
@@ -14,19 +15,21 @@ struct ComponentView<Content: View>: View {
     ZStack {
       Color.black.ignoresSafeArea()
 
-      VStack {
+      VStack(spacing: 0) {
         iconType.view()
           .padding(.bottom, 32)
 
         VStack(spacing: 8) {
           Text(title)
             .customFont(weight: .semiBold, size: 24)
+            .lineLimit(1)
             .foregroundStyle(.white)
           Text(subtitle)
+            .frame(width: 310)
             .customFont(weight: .regular, size: 16)
             .multilineTextAlignment(.center)
-            .foregroundStyle(.white)
-            .opacity(0.6)
+            .lineLimit(2)
+            .foregroundStyle(.neutral300)
         }
         .padding(.bottom, 40)
 
@@ -42,7 +45,7 @@ struct ComponentView<Content: View>: View {
         )
         .padding(.bottom, 8)
       }
-      .padding(.top, 100)
+      .padding(.top, isPaddingTop ? 80 : 76)
       .padding(.horizontal, 16)
     }
   }
@@ -78,6 +81,24 @@ enum IconType {
     isEnabled: true,
     isLoading: false,
     iconType: .icon(Image(.iconCall)),
+    isPaddingTop: true,
+    action: {},
+    content: {
+      Text("New page")
+        .foregroundStyle(.white)
+    }
+  )
+}
+
+#Preview {
+  ComponentView(
+    title: "Telefon raqamingizni kiriting",
+    subtitle: "Shaxsiy hisobga kirish uchun telefon raqamingizni kiriting",
+    buttonName: "Kodni olish",
+    isEnabled: true,
+    isLoading: false,
+    iconType: .imagePicker(.constant(.img1)),
+    isPaddingTop: false,
     action: {},
     content: {
       Text("New page")

@@ -3,7 +3,7 @@ import SwiftUI
 struct PhoneNumberView: View {
   @State private var vm: PhoneNumberVM
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self._vm = State(wrappedValue: PhoneNumberVM(router: router))
   }
 
@@ -15,6 +15,7 @@ struct PhoneNumberView: View {
       isEnabled: !vm.rawPhone.isEmpty,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconCall)),
+      isPaddingTop: true,
       action: { vm.next() },
       content: {
         LabelTextField(
@@ -32,5 +33,5 @@ struct PhoneNumberView: View {
 }
 
 #Preview {
-  PhoneNumberView(router: OnboardingRouter(coordinator: AppCoordinator()))
+  PhoneNumberView(router: OnboardingCoordinator(coordinator: AppCoordinator()))
 }

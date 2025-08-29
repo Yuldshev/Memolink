@@ -4,7 +4,7 @@ struct PasswordView: View {
   @State private var vm: PasswordVM
   @FocusState private var focusField: Field?
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self._vm = State(wrappedValue: PasswordVM(router: router))
   }
 
@@ -16,6 +16,7 @@ struct PasswordView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconLock)),
+      isPaddingTop: true,
       action: { vm.next() },
       content: {
         VStack(spacing: 24) {
@@ -69,5 +70,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  PasswordView(router: OnboardingRouter(coordinator: AppCoordinator()))
+  PasswordView(router: OnboardingCoordinator(coordinator: AppCoordinator()))
 }

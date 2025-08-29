@@ -13,12 +13,12 @@ struct LabelTextField: View {
     VStack(alignment: .leading, spacing: 2) {
       Text(title)
         .customFont(weight: .regular, size: 12)
-        .foregroundStyle(.white).opacity(0.6)
+        .foregroundStyle(.neutral400)
 
       textFieldContent
     }
     .padding(.horizontal, 12)
-    .frame(height: 60)
+    .frame(height: 64)
     .background(.black600)
     .clipShape(RoundedRectangle(cornerRadius: 10))
     .onTapGesture { isFocused = true }
@@ -52,7 +52,7 @@ struct LabelTextField: View {
         Image(isPasswordVisible ? .iconEyeOff : .iconEyeOn)
           .resizable()
           .scaledToFit()
-          .foregroundStyle(.white.opacity(0.7))
+          .foregroundStyle(.neutral300)
           .frame(width: 24, height: 24)
           .padding(.trailing, 12)
       }

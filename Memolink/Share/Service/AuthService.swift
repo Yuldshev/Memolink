@@ -1,7 +1,15 @@
 import Foundation
 
+protocol AuthServiceProtocol {
+  var currentUser: User? { get }
+  func login(phone: String, password: String) async throws -> User
+  func register(_ user: User) async
+  func logout()
+  func loadCurrentUser() async
+}
+
 @Observable
-final class AuthService {
+final class AuthService: AuthServiceProtocol {
   static let shared = AuthService()
   var currentUser: User?
   

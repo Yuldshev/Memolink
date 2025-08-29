@@ -4,7 +4,7 @@ struct InformationView: View {
   @State private var vm: InformationVM
   @FocusState private var focusedField: Field?
   
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self._vm = State(wrappedValue: InformationVM(router: router))
   }
 
@@ -16,7 +16,9 @@ struct InformationView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .imagePicker($vm.avatar),
-      action: { vm.complete() },
+      isPaddingTop: false,
+      action: { vm.complete()
+      },
       content: {
         VStack(spacing: 24) {
           LabelTextField(title: "First name", text: $vm.firstName, textContentType: .givenName)
@@ -27,7 +29,12 @@ struct InformationView: View {
             .focused($focusedField, equals: .lastName)
             .submitLabel(.next)
             .onSubmit { focusedField = .email }
-          LabelTextField(title: "Email", text: $vm.email, textContentType: .emailAddress)
+          LabelTextField(
+            title: "Email",
+            text: $vm.email,
+            keyboardType: .emailAddress,
+            textContentType: .emailAddress
+          )
             .focused($focusedField, equals: .email)
             .submitLabel(.done)
             .onSubmit { focusedField = nil }
@@ -44,5 +51,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  InformationView(router: OnboardingRouter(coordinator: AppCoordinator()))
+  InformationView(router: OnboardingCoordinator(coordinator: AppCoordinator()))
 }

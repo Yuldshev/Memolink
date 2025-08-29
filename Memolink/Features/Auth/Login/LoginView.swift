@@ -4,7 +4,7 @@ struct LoginView: View {
   @State private var vm: LoginVM
   @FocusState private var focusField: Field?
 
-  init(router: OnboardingRouter) {
+  init(router: OnboardingCoordinator) {
     self._vm = State(wrappedValue: LoginVM(router: router))
   }
   
@@ -16,6 +16,7 @@ struct LoginView: View {
       isEnabled: vm.isValid,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconUser)),
+      isPaddingTop: true,
       action: { vm.login() },
       content: {
         VStack(spacing: 24) {
@@ -52,5 +53,5 @@ private enum Field {
 
 // MARK: - Preview
 #Preview {
-  LoginView(router: OnboardingRouter(coordinator: AppCoordinator()))
+  LoginView(router: OnboardingCoordinator(coordinator: AppCoordinator()))
 }
