@@ -6,7 +6,6 @@ final class LoginVM: PhoneFormatter {
   var isLoading = false
   var rawPhone: String = "998"
   var displayPhone: String = "+998"
-  var errorMessage: String?
   
   var isValid: Bool {
     !rawPhone.isEmpty && !password.isEmpty
@@ -21,12 +20,11 @@ final class LoginVM: PhoneFormatter {
   
   func login() {
     guard isValid else {
-      errorMessage = "Please enter valid phone number and password"
+      router.showError("Please enter valid phone number and password")
       return
     }
     
     isLoading = true
-    errorMessage = nil
     
     Task { @MainActor in
       do {
@@ -36,7 +34,7 @@ final class LoginVM: PhoneFormatter {
         router.navigateToRoot()
         router.coordinator.onboardingDidCompleteLogin()
       } catch {
-        errorMessage = error.localizedDescription
+        router.showError(error.localizedDescription)
       }
       isLoading = false
     }

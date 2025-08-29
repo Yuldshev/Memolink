@@ -5,6 +5,8 @@ final class OnboardingRouter {
   var path = NavigationPath()
   let store = RegisterManager()
   let authService = AuthService.shared
+  let errorService = ErrorService()
+  
   let coordinator: AppCoordinator
   
   init(coordinator: AppCoordinator) {
@@ -21,5 +23,9 @@ final class OnboardingRouter {
   
   func navigateToRoot() {
     path = NavigationPath()
+  }
+  
+  func showError(_ message: String) {
+    errorService.showError(message)
   }
 }

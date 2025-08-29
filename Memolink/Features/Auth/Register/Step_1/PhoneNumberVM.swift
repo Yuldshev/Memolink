@@ -5,7 +5,6 @@ final class PhoneNumberVM: PhoneFormatter {
   var isLoading = false
   var rawPhone: String = "998"
   var displayPhone: String = "+998"
-  var errorMessage: String?
   var isValid: Bool { rawPhone.count == 12 }
   
   private let router: OnboardingRouter
@@ -16,12 +15,11 @@ final class PhoneNumberVM: PhoneFormatter {
   
   func next() {
     guard isValid else {
-      errorMessage = "Please enter a valid phone number"
+      router.showError("Please enter a valid phone number")
       return
     }
     
     isLoading = true
-    errorMessage = nil
     
     Task { @MainActor in
       await checkPhoneAPI()

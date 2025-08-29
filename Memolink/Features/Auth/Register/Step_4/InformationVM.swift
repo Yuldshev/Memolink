@@ -7,7 +7,6 @@ final class InformationVM {
   var lastName = ""
   var email = ""
   var isLoading = false
-  var errorMessage: String?
   
   // MARK: - Valide
   var isValid: Bool {
@@ -28,10 +27,12 @@ final class InformationVM {
   }
   
   func complete() {
-    guard isValid else { return }
+    guard isValid else {
+      router.showError("Please fill all fields correctly")
+      return
+    }
     
     isLoading = true
-    errorMessage = nil
     
     Task { @MainActor in
       do {
@@ -45,7 +46,7 @@ final class InformationVM {
         router.navigateToRoot()
         router.coordinator.onboardingDidCompleteRegistration()
       } catch {
-        errorMessage = error.localizedDescription
+        router.showError(error.localizedDescription)
       }
       isLoading = false
     }

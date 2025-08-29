@@ -12,7 +12,7 @@ struct PhoneNumberView: View {
       title: "Enter your phone number",
       subtitle: "Enter your phone number to access your account",
       buttonName: "Get code",
-      isEnabled: vm.isValid,
+      isEnabled: !vm.rawPhone.isEmpty,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconCall)),
       action: { vm.next() },

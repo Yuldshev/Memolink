@@ -15,6 +15,19 @@ struct OnboardingFlow: View {
           makeView(for: flow)
         }
     }
+    .overlay(alignment: .top) {
+      if router.errorService.isShowingError {
+        ErrorToast(message: router.errorService.currentError ?? "") {
+          router.errorService.hideError()
+        }
+        .transition(
+          .asymmetric(
+            insertion: .move(edge: .top).combined(with: .opacity),
+            removal: .move(edge: .top).combined(with: .opacity)
+          ))
+      }
+    }
+    .animation(.spring(duration: 0.6, bounce: 0.3), value: router.errorService.isShowingError)
   }
   
   @ViewBuilder
