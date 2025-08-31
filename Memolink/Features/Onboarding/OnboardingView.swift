@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct OnboardingView: View {
-  @State private var locale: LocaleApp = .en
   @State private var showSelectLocale = false
   @Environment(OnboardingCoordinator.self) private var router
   
@@ -49,7 +48,7 @@ struct OnboardingView: View {
     .animation(.easeInOut, value: showSelectLocale)
     .overlay(alignment: .topTrailing) { buttonLocale }
     .sheet(isPresented: $showSelectLocale) {
-      ChooseLocale(locale: $locale)
+      ChooseLocale(router: router)
         .presentationDetents([.height(360)])
         .presentationDragIndicator(.visible)
     }
@@ -59,7 +58,7 @@ struct OnboardingView: View {
     Button { showSelectLocale.toggle() } label: {
       HStack {
         Image(.iconArrowDown)
-        Text(locale.rawValue.capitalized)
+        Text(router.coordinator.locale.rawValue.capitalized)
           .customFont(weight: .medium, size: 18)
       }
       .padding(.vertical, 8)

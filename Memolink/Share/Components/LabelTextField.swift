@@ -21,7 +21,7 @@ struct LabelTextField: View {
     .frame(height: 64)
     .background(.black600)
     .clipShape(RoundedRectangle(cornerRadius: 10))
-    .onTapGesture { isFocused = true }
+    .onTapGesture { isFocused.toggle() }
     .overlay(focusedBorder)
     .overlay(alignment: .trailing) { passwordToggleButton }
   }

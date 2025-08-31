@@ -1,8 +1,15 @@
 import SwiftUI
 
 struct ChooseLocale: View {
-  @Binding var locale: LocaleApp
+  var router: OnboardingCoordinator
+  @State private var selectedLocale: LocaleApp
   @Environment(\.dismiss) var dismiss
+  
+  init(router: OnboardingCoordinator) {
+    self.router = router
+    let currentLocale = router.coordinator.locale
+    self._selectedLocale = State(wrappedValue: currentLocale)
+  }
 
   var body: some View {
     ZStack {
@@ -15,7 +22,7 @@ struct ChooseLocale: View {
 
         VStack(spacing: 8) {
           ForEach(LocaleApp.allCases) { index in
-            LocalePicker(item: index, select: $locale)
+            LocalePicker(item: index, select: $selectedLocale)
           }
         }
         .padding(.bottom, 16)
@@ -25,7 +32,10 @@ struct ChooseLocale: View {
           color: true,
           isEnabled: true,
           isLoading: false
-        ) { dismiss() }
+        ) {
+          router.coordinator.changeLocale(selectedLocale)
+          dismiss()
+        }
       }
       .padding(.top, 32)
       .padding(.horizontal, 16)
@@ -36,5 +46,5 @@ struct ChooseLocale: View {
 
 #Preview {
   @Previewable @State var locale: LocaleApp = .en
-  ChooseLocale(locale: $locale)
+  ChooseLocale(router: OnboardingCoordinator(coordinator: AppCoordinator()))
 }

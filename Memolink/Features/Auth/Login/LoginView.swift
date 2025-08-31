@@ -13,7 +13,7 @@ struct LoginView: View {
       title: "Login",
       subtitle: "Enter your phone number and password to sign in",
       buttonName: "Verify",
-      isEnabled: vm.isValid,
+      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconUser)),
       isPaddingTop: true,

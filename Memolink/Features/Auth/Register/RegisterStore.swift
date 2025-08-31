@@ -1,7 +1,7 @@
-import Foundation
+import SwiftUI
 
 @Observable
-final class RegisterManager {
+final class RegisterStore {
   var phone = ""
   var firstName = ""
   var lastName = ""
@@ -31,17 +31,5 @@ final class RegisterManager {
     email = ""
     password = ""
     avatar = nil
-  }
-}
-
-// MARK: - Register Error
-enum RegisterError: Error, LocalizedError {
-  case incompleteData
-  
-  var errorDescription: String? {
-    switch self {
-    case .incompleteData:
-      return "Please fill all required fields"
-    }
   }
 }

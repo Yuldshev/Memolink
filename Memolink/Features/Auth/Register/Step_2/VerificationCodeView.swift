@@ -10,9 +10,9 @@ struct VerificationCodeView: View {
   var body: some View {
     ComponentView(
       title: "Code verification",
-      subtitle: "Enter the 4-digit code sent to your number",
+      subtitle: "Enter the 5-digit code sent to your number",
       buttonName: "Verify",
-      isEnabled: vm.isValid,
+      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconChat)),
       isPaddingTop: true,

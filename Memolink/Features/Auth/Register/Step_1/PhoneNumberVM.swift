@@ -15,22 +15,17 @@ final class PhoneNumberVM: PhoneFormatter {
   
   func next() {
     guard isValid else {
-      router.showError("Please enter a valid phone number")
+      router.showError(RegisterError.invalidPhone.errorDescription)
       return
     }
     
     isLoading = true
     
     Task { @MainActor in
-      await checkPhoneAPI()
       router.store.phone = rawPhone
       router.navigate(to: .verificationCode)
       
       isLoading = false
     }
-  }
-  
-  private func checkPhoneAPI() async {
-    try? await Task.sleep(for: .seconds(0.3))
   }
 }

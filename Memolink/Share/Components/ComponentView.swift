@@ -14,6 +14,14 @@ struct ComponentView<Content: View>: View {
   var body: some View {
     ZStack {
       Color.black.ignoresSafeArea()
+        .onTapGesture {
+          UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+          )
+        }
 
       VStack(spacing: 0) {
         iconType.view()

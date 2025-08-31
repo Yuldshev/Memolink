@@ -17,6 +17,15 @@ final class VerificationCodeVM {
   }
   
   func next() {
+    guard !code.isEmpty else {
+      router.showError(RegisterError.otpRequired.errorDescription)
+      return
+    }
+    
+    guard isValid else {
+      router.showError(RegisterError.otpInvalid.errorDescription)
+      return
+    }
     router.navigate(to: .password)
   }
   

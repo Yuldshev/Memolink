@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 protocol AuthServiceProtocol {
   var currentUser: User? { get }
@@ -53,7 +54,7 @@ final class AuthService: AuthServiceProtocol {
     case userNotFound
     case invalidPassword
     
-    var errorDescription: String? {
+    var errorDescription: LocalizedStringKey {
       switch self {
       case .userNotFound:
         return "User not found"

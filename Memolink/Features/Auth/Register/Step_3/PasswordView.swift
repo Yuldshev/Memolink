@@ -13,7 +13,7 @@ struct PasswordView: View {
       title: "Create password",
       subtitle: "Create a password for your account",
       buttonName: "Continue",
-      isEnabled: vm.isValid,
+      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconLock)),
       isPaddingTop: true,
@@ -46,17 +46,6 @@ struct PasswordView: View {
             .focused($focusField, equals: .confirmPass)
             .submitLabel(.done)
             .onSubmit { focusField = nil }
-          
-          Group {
-            if let error = vm.errorMessage {
-              Text(error)
-                .foregroundStyle(.white)
-                .customFont(weight: .regular, size: 14)
-                .multilineTextAlignment(.center)
-                .opacity(0.6)
-            }
-          }
-          .animation(.easeInOut, value: vm.errorMessage)
         }
       }
     )

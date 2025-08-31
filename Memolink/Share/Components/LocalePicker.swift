@@ -61,7 +61,7 @@ enum LocaleApp: String, CaseIterable, Identifiable {
     "flag_\(rawValue)"
   }
 
-  var title: LocalizedStringKey {
+  var title: String {
     switch self {
     case .en: 
         return "English"
@@ -71,21 +71,8 @@ enum LocaleApp: String, CaseIterable, Identifiable {
         return "O'zbekcha"
     }
   }
-
-  var locale: Locale {
-    Locale(identifier: rawValue)
-  }
-
-  var displayName: String {
-    locale.localizedString(forIdentifier: rawValue) ?? title.stringValue
-  }
 }
 
-extension LocalizedStringKey {
-  var stringValue: String {
-    String(describing: self)
-  }
-}
 // MARK: - Preview
 #Preview {
   @Previewable @State var selectLocale: LocaleApp = .en

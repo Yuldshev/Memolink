@@ -14,6 +14,11 @@ struct AppView: View {
           MainView(coordinator: coordinator)
       }
     }
+    .environment(\.locale, Locale(identifier: coordinator.locale.rawValue))
     .animation(.easeInOut(duration: 0.3), value: coordinator.appState)
   }
+}
+
+#Preview {
+  AppView()
 }

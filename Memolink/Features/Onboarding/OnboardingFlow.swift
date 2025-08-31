@@ -16,18 +16,20 @@ struct OnboardingFlow: View {
         }
     }
     .overlay(alignment: .top) {
-      if router.errorService.isShowingError {
-        ErrorToast(message: router.errorService.currentError ?? "") {
-          router.errorService.hideError()
+      if router.toastService.isShowingToast {
+        if let toast = router.toastService.currentToast {
+          Toast(toastType: toast.type, message: toast.message) {
+            router.toastService.hideToast()
+          }
+          .transition(
+            .asymmetric(
+              insertion: .move(edge: .top).combined(with: .opacity),
+              removal: .move(edge: .top).combined(with: .opacity)
+            ))
         }
-        .transition(
-          .asymmetric(
-            insertion: .move(edge: .top).combined(with: .opacity),
-            removal: .move(edge: .top).combined(with: .opacity)
-          ))
       }
     }
-    .animation(.spring(duration: 0.6, bounce: 0.3), value: router.errorService.isShowingError)
+    .animation(.spring(duration: 0.6, bounce: 0.3), value: router.toastService.isShowingToast)
   }
   
   @ViewBuilder

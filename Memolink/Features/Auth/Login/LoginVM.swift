@@ -20,28 +20,44 @@ final class LoginVM: PhoneFormatter {
   }
   
   func login() {
-    guard isValid else {
-      router.showError("Please enter valid phone number and password")
-      return
+    do {
+      try validateInput()
+      performLogin()
+    } catch let error as LoginError {
+      router.showError(error.errorDescription)
+    } catch {
+      router.showError(LoginError.unknown.errorDescription)
     }
-    
+  }
+  
+  private func performLogin() {
     isLoading = true
     
     Task { @MainActor in
       do {
-        let user = try await performLogin()
+        let user = try await authService.login(phone: rawPhone, password: password)
         print("Login successful for: \(user.firstName) \(user.lastName)")
         
         router.navigateToRoot()
         router.coordinator.onboardingDidCompleteLogin()
+      } catch AuthService.AuthError.userNotFound {
+        router.showError(LoginError.userNotFound.errorDescription)
+      } catch AuthService.AuthError.invalidPassword {
+        router.showError(LoginError.invalidPassword.errorDescription)
       } catch {
-        router.showError(error.localizedDescription)
+        router.showError(LoginError.unknown.errorDescription)
       }
       isLoading = false
     }
   }
   
-  private func performLogin() async throws -> User {
-    return try await authService.login(phone: rawPhone, password: password)
+  private func validateInput() throws {
+    guard rawPhone.count == 12 else {
+      throw LoginError.invalidPhone
+    }
+    
+    guard !password.isEmpty else {
+      throw LoginError.passwordRequired
+    }
   }
 }

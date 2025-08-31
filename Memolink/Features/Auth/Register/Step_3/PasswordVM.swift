@@ -36,30 +36,8 @@ final class PasswordVM {
     (
       hasLetters: pass.contains { $0.isLetter },
       hasNumbers: pass.contains { $0.isNumber },
-      isLongEnough: pass.count > 8
+      isLongEnough: pass.count > 6
     )
-  }
-  
-  // MARK: - Error message
-  var errorMessage: String? {
-    guard !pass.isEmpty else {
-      return "Password must contain letters, numbers and be longer than 8 characters"
-    }
-    
-    var errors: [String] = []
-    
-    if !validation.hasLetters { errors.append("letters") }
-    if !validation.hasNumbers { errors.append("numbers") }
-    if !validation.isLongEnough { errors.append("more than 8 characters") }
-    
-    if !errors.isEmpty {
-      return "Password must contain " + errors.joined(separator: ", ")
-    }
-    if !confirmPass.isEmpty && pass != confirmPass {
-      return "Passwords do not match"
-    }
-    
-    return nil
   }
   
   // MARK: - Router
@@ -70,21 +48,29 @@ final class PasswordVM {
   }
   
   func next() {
-    guard isValid else { return }
-    
-    isLoading = true
-    
-    Task { @MainActor in
-      if await checkPasswordAPI() {
-        router.store.password = pass
-        router.navigate(to: .profile)
-      }
-      isLoading = false
+    do {
+      try validatePassword()
+      router.store.password = pass
+      router.navigate(to: .profile)
+    } catch let error as RegisterError {
+      router.showError(error.errorDescription)
+    } catch {
+      router.showError(RegisterError.unknown.errorDescription)
     }
   }
   
-  private func checkPasswordAPI() async -> Bool {
-    return isValidPass
+  private func validatePassword() throws {
+    guard !pass.isEmpty else {
+      throw RegisterError.passwordRequired
+    }
+    
+    guard isValidPass else {
+      throw RegisterError.weakPassword
+    }
+    
+    guard pass == confirmPass else {
+      throw RegisterError.passwordMismatch
+    }
   }
 }
 

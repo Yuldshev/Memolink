@@ -5,7 +5,7 @@ final class DIContainer {
   
   lazy var authService: AuthServiceProtocol = AuthService.shared
   lazy var cacheService: CacheServiceProtocol = CacheService.shared
-  lazy var errorService: ErrorServiceProtocol = ErrorService()
+  lazy var toastService: ToastServiceProtocol = ToastService()
   
   private init() {}
 }
