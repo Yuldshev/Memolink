@@ -6,7 +6,7 @@ struct MainView: View {
   var body: some View {
     VStack {
       Text("Main View")
-      Button("Log out") {
+      Button("Sign out") {
         coordinator.userDidLogout()
       }
     }

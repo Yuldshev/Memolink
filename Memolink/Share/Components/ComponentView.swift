@@ -4,7 +4,6 @@ struct ComponentView<Content: View>: View {
   var title: LocalizedStringKey
   var subtitle: LocalizedStringKey
   var buttonName: LocalizedStringKey
-  var isEnabled: Bool
   var isLoading: Bool
   var iconType: IconType
   var isPaddingTop: Bool
@@ -46,8 +45,6 @@ struct ComponentView<Content: View>: View {
         Spacer()
         PrimaryActionButton(
           title: buttonName,
-          color: true,
-          isEnabled: isEnabled,
           isLoading: isLoading,
           action: action
         )
@@ -86,7 +83,6 @@ enum IconType {
     title: "Telefon raqamingizni kiriting",
     subtitle: "Shaxsiy hisobga kirish uchun telefon raqamingizni kiriting",
     buttonName: "Kodni olish",
-    isEnabled: true,
     isLoading: false,
     iconType: .icon(Image(.iconCall)),
     isPaddingTop: true,
@@ -103,7 +99,6 @@ enum IconType {
     title: "Telefon raqamingizni kiriting",
     subtitle: "Shaxsiy hisobga kirish uchun telefon raqamingizni kiriting",
     buttonName: "Kodni olish",
-    isEnabled: true,
     isLoading: false,
     iconType: .imagePicker(.constant(.img1)),
     isPaddingTop: false,

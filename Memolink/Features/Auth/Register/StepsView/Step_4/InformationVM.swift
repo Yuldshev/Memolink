@@ -18,14 +18,9 @@ final class InformationVM {
   
   // MARK: - Router
   func complete() {
-    do {
-      try validateInformation()
-      performRegistration()
-    } catch let error as RegisterError {
-      router.showError(error.errorDescription)
-    } catch {
-      router.showError(RegisterError.unknown.errorDescription)
-    }
+    print("complete method called")
+    guard validateInformation() else { return }
+    performRegistration()
   }
   
   private func performRegistration() {
@@ -33,47 +28,51 @@ final class InformationVM {
     
     Task { @MainActor in
       do {
-        router.store.firstName = firstName
-        router.store.lastName = lastName
-        router.store.email = email
+        let phone = router.store.phone
+        let password = router.store.password
         
-        guard router.store.isDataComplete else {
-          throw RegisterError.incompleteData
+        let response = try await authService.register(
+          phone: phone,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password
+        )
+        
+        if response.status == "CREATED" {
+          router.store.reset()
+          router.showSuccess(RegisterToast.userExists.description)
+          router.navigateToRoot()
+          router.coordinator.onboardingDidCompleteRegistration()
         }
-        
-        let user = router.store.createUser()
-        await authService.register(user)
-        
-        router.store.reset()
-        router.showSuccess("Registration completed successfully")
-        router.navigateToRoot()
-        router.coordinator.onboardingDidCompleteRegistration()
-      } catch let error as RegisterError {
-        router.showError(error.errorDescription)
       } catch {
-        router.showError(RegisterError.unknown.errorDescription)
+        router.showError(LocalizedStringKey(error.localizedDescription))
       }
-      
       isLoading = false
     }
   }
   
-  private func validateInformation() throws {
+  private func validateInformation() -> Bool {
     guard !firstName.isEmpty else {
-      throw RegisterError.firstNameRequired
+      router.showError(RegisterToast.firstNameRequired.description)
+      return false
     }
     
     guard !lastName.isEmpty else {
-      throw RegisterError.lastNameRequired
+      router.showError(RegisterToast.lastNameRequired.description)
+      return false
     }
     
     guard !email.isEmpty else {
-      throw RegisterError.emailRequired
+      router.showError(RegisterToast.emailRequired.description)
+      return false
     }
     
     guard isValidEmail(email) else {
-      throw RegisterError.invalidEmail
+      router.showError(RegisterToast.invalidEmail.description)
+      return false
     }
+    return true
   }
   
   // MARK: - Valide

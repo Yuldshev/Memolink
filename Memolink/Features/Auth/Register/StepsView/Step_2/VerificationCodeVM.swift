@@ -4,7 +4,6 @@ import SwiftUI
 final class VerificationCodeVM {
   var code = ""
   var isLoading = false
-  var isValid: Bool { code == "11111" }
   
   // MARK: - Timer
   var timeRemaining = 60
@@ -14,21 +13,35 @@ final class VerificationCodeVM {
   
   init(router: OnboardingCoordinator) {
     self.router = router
+    startTimer()
   }
   
   func next() {
     guard !code.isEmpty else {
-      router.showError(RegisterError.otpRequired.errorDescription)
+      router.showError(RegisterToast.otpRequired.description)
       return
     }
-    
-    guard isValid else {
-      router.showError(RegisterError.otpInvalid.errorDescription)
-      return
-    }
-    router.navigate(to: .password)
+    verifyPhone()
   }
   
+  private func verifyPhone() {
+    isLoading = true
+    
+    Task { @MainActor in
+      do {
+        let phone = router.store.phone
+        let response = try await router.authService.verifyPhone(phone: phone, otp: code)
+        if response.success {
+          router.navigate(to: .password)
+        }
+      } catch {
+        router.showError(LocalizedStringKey(error.localizedDescription))
+      }
+      isLoading = false
+    }
+  }
+  
+  // MARK: - Timer
   func startTimer() {
     guard timer == nil else { return }
     

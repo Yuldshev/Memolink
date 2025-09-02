@@ -29,15 +29,11 @@ struct OnboardingView: View {
         VStack(spacing: 12) {
           PrimaryActionButton(
             title: "Sign Up",
-            color: true,
-            isEnabled: true,
             isLoading: false
           ) { router.navigate(to: .phoneNumber) }
           
           PrimaryActionButton(
             title: "Sign In",
-            color: false,
-            isEnabled: true,
             isLoading: false
           ) { router.navigate(to: .login)}
         }

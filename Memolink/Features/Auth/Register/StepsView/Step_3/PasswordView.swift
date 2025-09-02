@@ -13,7 +13,6 @@ struct PasswordView: View {
       title: "Create password",
       subtitle: "Create a password for your account",
       buttonName: "Continue",
-      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconLock)),
       isPaddingTop: true,

@@ -9,21 +9,6 @@ final class RegisterStore {
   var password = ""
   var avatar: Data?
   
-  func createUser() -> User {
-    User(
-      phone: phone,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      avatar: avatar
-    )
-  }
-  
-  var isDataComplete: Bool {
-    !phone.isEmpty && !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && !password.isEmpty
-  }
-  
   func reset() {
     phone = ""
     firstName = ""

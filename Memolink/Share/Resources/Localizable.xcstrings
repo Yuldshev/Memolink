@@ -121,7 +121,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создать пароль"
+            "value" : "Создайте пароль"
           }
         },
         "uz" : {
@@ -169,7 +169,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Электронная почта обязательна"
+            "value" : "Введите электронную почту"
           }
         },
         "uz" : {
@@ -201,7 +201,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введите ваш номер телефона"
+            "value" : "Введите номер телефона"
           }
         },
         "uz" : {
@@ -249,7 +249,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Имя"
+            "value" : "Введите имя"
           }
         },
         "uz" : {
@@ -265,7 +265,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Имя обязательно"
+            "value" : "Поле «Имя» не может быть пустым "
           }
         },
         "uz" : {
@@ -292,34 +292,18 @@
         }
       }
     },
-    "Incorrect SMS code" : {
+    "Invalid phone number or password" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Неверный SMS код"
+            "value" : "Неверный номер телефона или пароль"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Noto'g'ri SMS kod"
-          }
-        }
-      }
-    },
-    "Invalid password" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Неверный пароль"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noto'g'ri parol"
+            "value" : "Telefon raqam yoki parolani to’g’ri kiriting"
           }
         }
       }
@@ -329,7 +313,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Фамилия"
+            "value" : "Введите фамилию"
           }
         },
         "uz" : {
@@ -345,7 +329,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Фамилия обязательна"
+            "value" : "Поле «Фамилия» не может быть пустым"
           }
         },
         "uz" : {
@@ -356,34 +340,18 @@
         }
       }
     },
-    "Log out" : {
+    "Login successful" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выйти"
+            "value" : "Вы вошли в профиль"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chiqish"
-          }
-        }
-      }
-    },
-    "Login" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Войти"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kirish"
+            "value" : "Profilga muvaffaqiyatli kirdiz"
           }
         }
       }
@@ -425,7 +393,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пароль"
+            "value" : "Введите пароль"
           }
         },
         "uz" : {
@@ -441,7 +409,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пароль обязателен"
+            "value" : "Поле «Пароль» не может быть пустым"
           }
         },
         "uz" : {
@@ -564,34 +532,18 @@
         }
       }
     },
-    "Please fill all required fields" : {
+    "Registration successful. Please log in" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пожалуйста, заполните все обязательные поля"
+            "value" : "Регистрация завершена. Войдите в систему"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iltimos, barcha majburiy maydonlarni to'ldiring"
-          }
-        }
-      }
-    },
-    "Registration completed successfully" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Регистрация завершена успешно"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi"
+            "value" : "Ro’yxatdan muvaffaqiyatli otdiz. Tizimga kiring"
           }
         }
       }
@@ -628,6 +580,22 @@
         }
       }
     },
+    "Sign out" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выйти"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profildan chiqish"
+          }
+        }
+      }
+    },
     "Sign Up" : {
       "localizations" : {
         "ru" : {
@@ -660,18 +628,18 @@
         }
       }
     },
-    "Unknown error" : {
+    "SMS code sent to your phone number" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Неизвестная ошибка"
+            "value" : "СМС код отправлен на ваш номер"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Noma'lum xatolik"
+            "value" : "SMS kod raqamizga yuborildi"
           }
         }
       }
@@ -692,18 +660,18 @@
         }
       }
     },
-    "User not found" : {
+    "User with this phone number already exists" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пользователь не найден"
+            "value" : "Пользователь с этим номером уже существует"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Foydalanuvchi topilmadi"
+            "value" : "Bu rakamda foydalanuvchi mavjud"
           }
         }
       }

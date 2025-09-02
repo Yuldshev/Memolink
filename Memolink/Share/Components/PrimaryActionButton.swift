@@ -2,12 +2,8 @@ import SwiftUI
 
 struct PrimaryActionButton: View {
   var title: LocalizedStringKey
-  var color: Bool
-  var isEnabled: Bool
   var isLoading: Bool
   var action: () -> Void
-
-  @State private var isPressed: Bool = false
 
   var body: some View {
     Button(action: action) {
@@ -22,46 +18,12 @@ struct PrimaryActionButton: View {
         }
       }
         .frame(maxWidth: .infinity, minHeight: 56)
-        .background(color ? buttonBGPrimary : buttonBGGray)
+        .background(isLoading ? .neutral600 : .primary500)
         .clipShape(Capsule())
-        .scaleEffect(isPressed ? 0.95 : 1)
     }
     .buttonStyle(.plain)
-    .simultaneousGesture(
-      DragGesture(minimumDistance: 0)
-        .onChanged { _ in
-          if !isPressed && isEnabled && !isLoading {
-            withAnimation(.easeOut(duration: 0.1)) {
-              isPressed = true
-            }
-          }
-        }
-        .onEnded { _ in
-          if isPressed {
-            withAnimation(.easeIn(duration: 0.1)) {
-              isPressed = false
-            }
-          }
-        }
-    )
+    .disabled(isLoading)
     .animation(.smooth(duration: 0.3), value: isLoading)
-    .animation(.smooth(duration: 0.2), value: isEnabled)
-    .animation(.smooth(duration: 0.2), value: isPressed)
-    .disabled(!isEnabled || isLoading)
-  }
-
-  private var buttonBGPrimary: Color {
-    if !isEnabled || isLoading {
-      return .neutral600
-    }
-    return isPressed ? .primary600 : .primary500
-  }
-  
-  private var buttonBGGray: Color {
-    if !isEnabled || isLoading {
-      return .neutral600
-    }
-    return isPressed ? .neutral800 : .neutral700
   }
 }
 
@@ -75,8 +37,6 @@ struct PrimaryActionButton: View {
     VStack {
       PrimaryActionButton(
         title: "Login",
-        color: true,
-        isEnabled: isEnabled,
         isLoading: isLoading
       ) {}
         .padding()

@@ -51,10 +51,10 @@ final class AppCoordinator {
       
       await authService.loadCurrentUser()
       
-      if authService.currentUser == nil {
-        appState = .onboarding
-      } else {
+      if authService.isAuth {
         appState = .main
+      } else {
+        appState = .onboarding
       }
     }
   }

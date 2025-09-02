@@ -1,9 +1,10 @@
 import SwiftUI
 
-enum RegisterError: Error, LocalizedError {
+enum RegisterToast {
+  // Errors
   case invalidPhone
   case otpRequired
-  case otpInvalid
+  case userExists
   case firstNameRequired
   case lastNameRequired
   case emailRequired
@@ -11,17 +12,19 @@ enum RegisterError: Error, LocalizedError {
   case passwordRequired
   case weakPassword
   case passwordMismatch
-  case incompleteData
-  case unknown
   
-  var errorDescription: LocalizedStringKey {
+  // Success
+  case otpSent
+  case registerComplete
+  
+  var description: LocalizedStringKey {
     switch self {
     case .invalidPhone:
       return "Please enter a valid phone number"
     case .otpRequired:
       return "SMS code is required"
-    case .otpInvalid:
-      return "Incorrect SMS code"
+    case .userExists:
+      return "User with this phone number already exists"
     case .firstNameRequired:
       return "First name is required"
     case .lastNameRequired:
@@ -36,10 +39,11 @@ enum RegisterError: Error, LocalizedError {
       return "Password must be at least 6 characters"
     case .passwordMismatch:
       return "Passwords do not match"
-    case .incompleteData:
-      return "Please fill all required fields"
-    case .unknown:
-      return "Unknown error"
+    case .otpSent:
+      return "SMS code sent to your phone number"
+    case .registerComplete:
+      return "Registration successful. Please log in"
+      
     }
   }
 }

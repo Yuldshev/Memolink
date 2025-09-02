@@ -12,7 +12,6 @@ struct VerificationCodeView: View {
       title: "Code verification",
       subtitle: "Enter the 5-digit code sent to your number",
       buttonName: "Verify",
-      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .icon(Image(.iconChat)),
       isPaddingTop: true,
@@ -36,7 +35,6 @@ struct VerificationCodeView: View {
         }
       }
     )
-    .onAppear(perform: vm.startTimer)
     .onDisappear(perform: vm.stopTimer)
   }
 }

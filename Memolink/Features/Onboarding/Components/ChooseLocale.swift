@@ -29,8 +29,6 @@ struct ChooseLocale: View {
 
         PrimaryActionButton(
           title: "Apply",
-          color: true,
-          isEnabled: true,
           isLoading: false
         ) {
           router.coordinator.changeLocale(selectedLocale)

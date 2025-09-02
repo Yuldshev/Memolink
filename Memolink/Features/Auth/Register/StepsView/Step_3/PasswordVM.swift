@@ -7,20 +7,16 @@ final class PasswordVM {
   var isLoading = false
   
   // MARK: - Validation
-  var isValid: Bool {
-    pass == confirmPass && isValidPass
-  }
-  
-  var isValidPass: Bool {
-    return validation.hasLetters && validation.hasNumbers && validation.isLongEnough
-  }
-  
   var passwordStrength: PasswordStrength {
     guard !pass.isEmpty else {
       return PasswordStrength(progress: 0, color: .black200)
     }
     
-    switch (validation.hasLetters, validation.hasNumbers, validation.isLongEnough) {
+    let hasLetters = pass.contains { $0.isLetter }
+    let hasNumbers = pass.contains { $0.isNumber }
+    let isLongEnough = pass.count > 6
+    
+    switch (hasLetters, hasNumbers, isLongEnough) {
     case (false, false, _):
       return PasswordStrength(progress: 1, color: .red)
     case (true, false, _), (false, true, _):
@@ -32,14 +28,6 @@ final class PasswordVM {
     }
   }
   
-  private var validation: (hasLetters: Bool, hasNumbers: Bool, isLongEnough: Bool) {
-    (
-      hasLetters: pass.contains { $0.isLetter },
-      hasNumbers: pass.contains { $0.isNumber },
-      isLongEnough: pass.count > 6
-    )
-  }
-  
   // MARK: - Router
   private let router: OnboardingCoordinator
   
@@ -48,29 +36,27 @@ final class PasswordVM {
   }
   
   func next() {
-    do {
-      try validatePassword()
-      router.store.password = pass
-      router.navigate(to: .profile)
-    } catch let error as RegisterError {
-      router.showError(error.errorDescription)
-    } catch {
-      router.showError(RegisterError.unknown.errorDescription)
-    }
+    guard validatePassword() else { return }
+    router.store.password = pass
+    router.navigate(to: .profile)
   }
-  
-  private func validatePassword() throws {
+ 
+  private func validatePassword() -> Bool {
     guard !pass.isEmpty else {
-      throw RegisterError.passwordRequired
+      router.showError(RegisterToast.passwordRequired.description)
+      return false
     }
     
-    guard isValidPass else {
-      throw RegisterError.weakPassword
+    guard passwordStrength.progress == 3 else {
+      router.showError(RegisterToast.weakPassword.description)
+      return false
     }
     
     guard pass == confirmPass else {
-      throw RegisterError.passwordMismatch
+      router.showError(RegisterToast.passwordMismatch.description)
+      return false
     }
+    return true
   }
 }
 

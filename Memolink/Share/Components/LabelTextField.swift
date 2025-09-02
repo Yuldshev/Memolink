@@ -74,6 +74,8 @@ extension View {
       .customFont(weight: .medium, size: 16)
       .focused(condition)
       .textContentType(textContentType)
+      .autocorrectionDisabled()
+      .textInputAutocapitalization(.none)
   }
 }
 

@@ -13,7 +13,6 @@ struct InformationView: View {
       title: "Personal information",
       subtitle: "Upload your photo and enter your information",
       buttonName: "Continue",
-      isEnabled: true,
       isLoading: vm.isLoading,
       iconType: .imagePicker($vm.avatar),
       isPaddingTop: false,

@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 @Observable
 final class LoginVM: PhoneFormatter {
@@ -20,14 +20,8 @@ final class LoginVM: PhoneFormatter {
   }
   
   func login() {
-    do {
-      try validateInput()
-      performLogin()
-    } catch let error as LoginError {
-      router.showError(error.errorDescription)
-    } catch {
-      router.showError(LoginError.unknown.errorDescription)
-    }
+    guard validateInput() else { return }
+    performLogin()
   }
   
   private func performLogin() {
@@ -35,29 +29,27 @@ final class LoginVM: PhoneFormatter {
     
     Task { @MainActor in
       do {
-        let user = try await authService.login(phone: rawPhone, password: password)
-        print("Login successful for: \(user.firstName) \(user.lastName)")
-        
+        _ = try await router.authService.login(phone: rawPhone, password: password)
+        router.showSuccess(LoginToast.loginSuccess.description)
         router.navigateToRoot()
         router.coordinator.onboardingDidCompleteLogin()
-      } catch AuthService.AuthError.userNotFound {
-        router.showError(LoginError.userNotFound.errorDescription)
-      } catch AuthService.AuthError.invalidPassword {
-        router.showError(LoginError.invalidPassword.errorDescription)
       } catch {
-        router.showError(LoginError.unknown.errorDescription)
+        router.showError(LocalizedStringKey(error.localizedDescription))
       }
       isLoading = false
     }
   }
   
-  private func validateInput() throws {
+  private func validateInput() -> Bool {
     guard rawPhone.count == 12 else {
-      throw LoginError.invalidPhone
+      router.showError(LoginToast.invalidPhone.description)
+      return false
     }
     
     guard !password.isEmpty else {
-      throw LoginError.passwordRequired
+      router.showError(LoginToast.passwordRequired.description)
+      return false
     }
+    return true
   }
 }
