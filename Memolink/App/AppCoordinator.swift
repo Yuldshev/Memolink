@@ -9,9 +9,10 @@ final class AppCoordinator {
     case splash, onboarding, main
   }
   
-  private let authService = AuthService.shared
+  private let authService: AuthServiceProtocol
   
   init() {
+    self.authService = DIContainer.shared.authService
     loadSavedLocale()
     startAppFlow()
   }

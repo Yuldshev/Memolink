@@ -2,7 +2,15 @@ import Foundation
 import Alamofire
 import Network
 
-actor APIService {
+protocol APIServiceProtocol {
+  func checkUserType(phone: String) async throws -> UserTypeData
+  func verifyPhone(_ phone: String, otp: String) async throws -> VerificationData
+  func register(phone: String, firstName: String, lastName: String, email: String, password: String) async throws -> RegisterData
+  func login(phone: String, password: String) async throws -> LoginData
+  func refresh(token: String) async throws -> TokenData
+}
+
+actor APIService: APIServiceProtocol {
   private let session: Session
   private let monitor = NWPathMonitor()
   private var isConnected = true

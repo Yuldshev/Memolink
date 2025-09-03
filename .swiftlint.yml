@@ -11,6 +11,9 @@ excluded:
   - Carthage/Checkouts
   - fastlane
   - .bundle
+  - MemolinkTests
+  - "**/*Tests.swift"
+  - "**/*Test.swift"
 
 # Enabled rules (in addition to default rules)
 opt_in_rules:

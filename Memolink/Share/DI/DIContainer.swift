@@ -3,9 +3,9 @@ import Foundation
 final class DIContainer {
   static let shared = DIContainer()
   
-  lazy var authService: AuthServiceProtocol = AuthService.shared
   lazy var toastService: ToastServiceProtocol = ToastService()
-  lazy var apiService = APIService()
+  lazy var apiService: APIServiceProtocol = APIService()
+  lazy var authService: AuthServiceProtocol = AuthService(apiService: apiService)
   
   private init() {}
 }

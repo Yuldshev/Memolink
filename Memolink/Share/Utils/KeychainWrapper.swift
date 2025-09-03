@@ -35,7 +35,7 @@ struct Keychain<T: Codable> {
       
       SecItemDelete(query as CFDictionary)
       
-      let status = SecItemAdd(query as CFDictionary, nil)
+      _ = SecItemAdd(query as CFDictionary, nil)
     } catch {
       
     }

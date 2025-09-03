@@ -13,13 +13,14 @@ protocol AuthServiceProtocol {
 
 @Observable
 final class AuthService: AuthServiceProtocol {
-  static let shared = AuthService()
   var isAuth: Bool = false
  
-  private let apiService = APIService()
+  private let apiService: APIServiceProtocol
   private var tokenExpiryTime: Date?
   
-  private init() {}
+  init(apiService: APIServiceProtocol) {
+    self.apiService = apiService
+  }
   
   func checkUserType(phone: String) async throws -> UserTypeData {
     try await apiService.checkUserType(phone: phone)
