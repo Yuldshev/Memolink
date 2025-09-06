@@ -1,55 +1,38 @@
 import SwiftUI
 
 @Observable
-final class VerificationCodeVM {
+final class VerificationCodeVM: BaseViewModel {
   var code = ""
-  var isLoading = false
   
   // MARK: - Timer
-  var timeRemaining = 60
+  var timeRemaining = AppConstants.timerDuration
   private var timer: Timer?
   
-  private let router: OnboardingCoordinator
-  
-  init(router: OnboardingCoordinator) {
-    self.router = router
+  override init(router: OnboardingCoordinator) {
+    super.init(router: router)
     startTimer()
   }
   
   func next() {
-    guard !code.isEmpty else {
-      router.showError(RegisterToast.otpRequired.description)
-      return
-    }
+    guard validate(ValidationHelper.validateOtp(code)) else { return }
     verifyPhone()
   }
   
   private func verifyPhone() {
-    isLoading = true
+    startLoading()
     
     Task { @MainActor in
       do {
         let phone = router.store.phone
-        let response = try await router.authService.verifyPhone(phone: phone, otp: code)
+        let response = try await authService.verifyPhone(phone: phone, otp: code)
+        
         if response.success {
           router.navigate(to: .password)
         }
       } catch {
-        let registerError = mapError(error)
-        router.showError(registerError.description)
+        handleError(error)
       }
-      isLoading = false
-    }
-  }
-  
-  private func mapError(_ error: Error) -> RegisterToast {
-    switch error {
-    case URLError.notConnectedToInternet, URLError.timedOut:
-      return .networkError
-    case URLError.userAuthenticationRequired:
-      return .invalidOTP
-    default:
-      return .serverError
+      stopLoading()
     }
   }
   
@@ -75,7 +58,7 @@ final class VerificationCodeVM {
   func resetTimer() {
     stopTimer()
     code = ""
-    timeRemaining = 60
+    timeRemaining = AppConstants.timerDuration
     startTimer()
   }
   

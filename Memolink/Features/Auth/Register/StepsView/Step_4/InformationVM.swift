@@ -1,98 +1,54 @@
 import SwiftUI
 
 @Observable
-final class InformationVM {
+final class InformationVM: BaseViewModel {
   var avatar: UIImage?
   var firstName = ""
   var lastName = ""
-  var email = ""
-  var isLoading = false
   
-  private let router: OnboardingCoordinator
-  private let authService: AuthServiceProtocol
-  
-  init(router: OnboardingCoordinator) {
-    self.router = router
-    self.authService = router.authService
+  override init(router: OnboardingCoordinator) {
+    super.init(router: router)
   }
   
   // MARK: - Router
   func complete() {
-    print("complete method called")
-    guard validateInformation() else { return }
-    performRegistration()
+    guard valid() else { return }
+    performRegister()
   }
   
-  private func performRegistration() {
-    isLoading = true
+  private func performRegister() {
+    startLoading()
     
     Task { @MainActor in
       do {
         let phone = router.store.phone
         let password = router.store.password
-        
         let response = try await authService.register(
           phone: phone,
           firstName: firstName,
           lastName: lastName,
-          email: email,
           password: password
         )
         
         if response.status == "CREATED" {
           router.store.reset()
-          router.showError(RegisterToast.userExists.description)
+          showSuccess(.registerSuccess)
           router.navigateToRoot()
-          router.coordinator.onboardingDidCompleteRegistration()
         }
       } catch {
-        let registerError = mapError(error)
-        router.showError(registerError.description)
+        handleError(error)
       }
-      isLoading = false
+      stopLoading()
     }
   }
   
-  private func validateInformation() -> Bool {
-    guard !firstName.isEmpty else {
-      router.showError(RegisterToast.firstNameRequired.description)
-      return false
-    }
-    
-    guard !lastName.isEmpty else {
-      router.showError(RegisterToast.lastNameRequired.description)
-      return false
-    }
-    
-    guard !email.isEmpty else {
-      router.showError(RegisterToast.emailRequired.description)
-      return false
-    }
-    
-    guard isValidEmail(email) else {
-      router.showError(RegisterToast.invalidEmail.description)
-      return false
-    }
-    return true
-  }
-  
-  private func mapError(_ error: Error) -> RegisterToast {
-    switch error {
-    case URLError.notConnectedToInternet, URLError.timedOut:
-      return .networkError
-    default:
-      return .serverError
-    }
-  }
-  
-  // MARK: - Valide
-  var isValid: Bool {
-    return !firstName.isEmpty && !lastName.isEmpty && isValidEmail(email)
-  }
-  
-  private func isValidEmail(_ email: String) -> Bool {
-    let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-    let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-    return predicate.evaluate(with: email)
+  private func valid() -> Bool {
+    validate(
+      ValidationHelper.validateRegistration(
+        firstName: firstName,
+        lastName: lastName,
+        password: router.store.password
+      )
+    )
   }
 }

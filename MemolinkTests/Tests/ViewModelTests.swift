@@ -1,86 +1,45 @@
 import XCTest
 @testable import Memolink
 
-// MARK: - Simple VM Tests без router dependencies
+// MARK: - Validation Only Tests (KISS principle - без сложных dependencies)
 final class ViewModelTests: XCTestCase {
   
-  // MARK: - PasswordVM Tests
-  func testPasswordStrengthWeak() {
-    let mockRouter = createMockRouter()
-    let passwordVM = PasswordVM(router: mockRouter)
+  // MARK: - Password Strength Tests (тестируем только логику)
+  func testPasswordStrengthCalculation() {
+    // Тест слабого пароля (только lowercase)
+    let weakStrength = PasswordValidator.strength("weak")
+    XCTAssertEqual(weakStrength, 1)
     
-    passwordVM.pass = "weak"
-    let strength = passwordVM.passwordStrength
+    // Тест среднего пароля (длина + lowercase + uppercase)
+    let mediumStrength = PasswordValidator.strength("Password")
+    XCTAssertEqual(mediumStrength, 3)
     
-    XCTAssertEqual(strength.progress, 1)
-    XCTAssertEqual(strength.color, .red)
+    // Тест сильного пароля (все 4 проверки)
+    let strongStrength = PasswordValidator.strength("Password1")
+    XCTAssertEqual(strongStrength, 4)
   }
   
-  func testPasswordStrengthStrong() {
-    let mockRouter = createMockRouter()
-    let passwordVM = PasswordVM(router: mockRouter)
-    
-    passwordVM.pass = "Password1"
-    let strength = passwordVM.passwordStrength
-    
-    XCTAssertEqual(strength.progress, 3)
-    XCTAssertEqual(strength.color, .green)
-  }
-  
+  // MARK: - Password Validation Tests
   func testPasswordValidation() {
-    let mockRouter = createMockRouter()
-    let passwordVM = PasswordVM(router: mockRouter)
-    
-    passwordVM.pass = "Password1"
-    passwordVM.confirmPass = "Password1"
-    
-    // Проверяем что пароль валидный для PasswordValidator
-    XCTAssertTrue(PasswordValidator.validate(passwordVM.pass))
-    XCTAssertEqual(passwordVM.pass, passwordVM.confirmPass)
+    XCTAssertTrue(PasswordValidator.validate("Password1"))
+    XCTAssertFalse(PasswordValidator.validate("weak"))
+    XCTAssertFalse(PasswordValidator.validate(""))
   }
   
-  // MARK: - LoginVM Tests  
-  func testLoginVMValidation() {
-    let mockRouter = createMockRouter()
-    let loginVM = LoginVM(router: mockRouter)
+  // MARK: - Phone Validation Tests
+  func testPhoneValidation() {
+    // Valid phones
+    XCTAssertTrue(ValidationHelper.validatePhone("998990573713").isValid)
+    XCTAssertTrue(ValidationHelper.validatePhone("998901234567").isValid)
     
-    loginVM.rawPhone = "998990573713"
-    loginVM.password = "Password1"
-    
-    XCTAssertTrue(loginVM.isValid)
+    // Invalid phones  
+    XCTAssertFalse(ValidationHelper.validatePhone("123").isValid)
+    XCTAssertFalse(ValidationHelper.validatePhone("").isValid)
+    XCTAssertFalse(ValidationHelper.validatePhone("99899057371").isValid) // Too short
   }
   
-  func testLoginVMInvalidPhone() {
-    let mockRouter = createMockRouter()
-    let loginVM = LoginVM(router: mockRouter)
-    
-    loginVM.rawPhone = "123"
-    loginVM.password = "Password1"
-    
-    // isValid только проверяет что поля не пустые
-    XCTAssertTrue(loginVM.isValid)
-    // Но валидация номера происходит при login() - проверим длину
-    XCTAssertNotEqual(loginVM.rawPhone.count, 12)
-  }
-  
-  // MARK: - Helper
-  private func createMockRouter() -> OnboardingCoordinator {
-    // Создать minimal router для тестов
-    let realAppCoordinator = AppCoordinator()
-    let realServices = DIContainer.shared
-    
-    return OnboardingCoordinator(
-      coordinator: realAppCoordinator,
-      services: realServices
-    )
-  }
-}
-
-// MARK: - Validation Only Tests (без dependencies)
-final class ValidationTests: XCTestCase {
-  
+  // MARK: - Email Validation Tests  
   func testEmailValidation() {
-    // Тест email regex из InformationVM
     let validEmails = ["test@example.com", "user@domain.co.uk"]
     let invalidEmails = ["invalid", "@domain.com", "user@"]
     

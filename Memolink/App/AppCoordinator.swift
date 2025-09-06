@@ -33,10 +33,6 @@ final class AppCoordinator {
   }
   
   // MARK: - Navigation State
-  func onboardingDidCompleteRegistration() {
-    appState = .onboarding
-  }
-  
   func onboardingDidCompleteLogin() {
     appState = .main
   }

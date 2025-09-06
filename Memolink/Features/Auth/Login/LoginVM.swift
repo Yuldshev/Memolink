@@ -1,22 +1,14 @@
 import SwiftUI
 
 @Observable
-final class LoginVM: PhoneFormatter {
+final class LoginVM: BaseViewModel, PhoneFormatter {
   var password = ""
-  var isLoading = false
   var rawPhone: String = "998"
   var displayPhone: String = "+998"
   
-  var isValid: Bool {
-    !rawPhone.isEmpty && !password.isEmpty
-  }
-  
-  private let authService: AuthServiceProtocol
-  private let router: OnboardingCoordinator
-  
-  init(router: OnboardingCoordinator) {
-    self.router = router
-    self.authService = router.authService
+  override init(router: OnboardingCoordinator) {
+    super.init(router: router)
+    rawPhone = router.store.phone.isEmpty ? "998" : router.store.phone
   }
   
   func login() {
@@ -25,43 +17,22 @@ final class LoginVM: PhoneFormatter {
   }
   
   private func performLogin() {
-    isLoading = true
+    startLoading()
     
     Task { @MainActor in
       do {
-        _ = try await router.authService.login(phone: rawPhone, password: password)
-        router.showSuccess(LoginToast.loginSuccess.description)
+        _ = try await authService.login(phone: rawPhone, password: password)
+        showSuccess(.loginSuccess)
         router.navigateToRoot()
         router.coordinator.onboardingDidCompleteLogin()
       } catch {
-        let loginError = mapError(error)
-        router.showError(loginError.description)
+        handleError(error)
       }
-      isLoading = false
+      stopLoading()
     }
   }
   
   private func validateInput() -> Bool {
-    guard rawPhone.count == 12 else {
-      router.showError(LoginToast.invalidPhone.description)
-      return false
-    }
-    
-    guard PasswordValidator.validate(password) else {
-      router.showError(LoginToast.passwordRequired.description)
-      return false
-    }
-    return true
-  }
-  
-  private func mapError(_ error: Error) -> LoginToast {
-    switch error {
-    case URLError.notConnectedToInternet, URLError.timedOut:
-      return .networkError
-    case URLError.userAuthenticationRequired:
-      return .invalidCredentials
-    default:
-      return .serverError
-    }
+    validate(ValidationHelper.validateLogin(phone: rawPhone, password: password))
   }
 }

@@ -11,15 +11,15 @@ final class MockOnboardingCoordinator {
   var didCompleteRegistration = false
   
   let store = MockRegisterStore()
-  let authService = MockAuthService()
+  let authService: AuthServiceProtocol = MockAuthService()
   let coordinator = MockAppCoordinator()
   
-  func showError(_ message: LocalizedStringKey) {
-    lastErrorMessage = String(describing: message)
+  func showError(_ message: String) {
+    lastErrorMessage = message
   }
   
-  func showSuccess(_ message: LocalizedStringKey) {
-    lastSuccessMessage = String(describing: message)
+  func showSuccess(_ message: String) {
+    lastSuccessMessage = message
   }
   
   func navigate(to destination: OnboardingCoordinator.Flow) {
@@ -48,10 +48,10 @@ final class MockRegisterStore {
 final class MockAuthService: AuthServiceProtocol {
   var isAuth = false
   
-  var loginResult: Result<LoginData, Error>?
+  var loginResult: Result<TokenData, Error>?
   var checkUserTypeResult: Result<UserTypeData, Error>?
   var verifyPhoneResult: Result<VerificationData, Error>?
-  var registerResult: Result<RegisterData, Error>?
+  var registerResult: Result<UserData, Error>?
 
   func checkUserType(phone: String) async throws -> UserTypeData {
     guard let result = checkUserTypeResult else { throw URLError(.badServerResponse) }
@@ -63,12 +63,12 @@ final class MockAuthService: AuthServiceProtocol {
     return try result.get()
   }
   
-  func register(phone: String, firstName: String, lastName: String, email: String, password: String) async throws -> RegisterData {
+  func register(phone: String, firstName: String, lastName: String, password: String) async throws -> UserData {
     guard let result = registerResult else { throw URLError(.badServerResponse) }
     return try result.get()
   }
   
-  func login(phone: String, password: String) async throws -> LoginData {
+  func login(phone: String, password: String) async throws -> TokenData {
     guard let result = loginResult else { throw URLError(.badServerResponse) }
     return try result.get()
   }
@@ -82,7 +82,33 @@ final class MockAuthService: AuthServiceProtocol {
   }
   
   func refreshTokenIfNeeded() async throws {
+    // Mock implementation - always succeeds if auth is set
+  }
+  
+  func getUserInfo() async throws -> UserData {
+    return UserData(
+      phoneNumber: "998990573713",
+      email: "mock@test.com",
+      firstName: "Mock",
+      lastName: "User",
+      userId: "mock123",
+      status: "active"
+    )
+  }
+  
+  func changePassword(oldPass: String, newPass: String) async throws {
     // Mock implementation
+  }
+  
+  func changeUserInfo(firstName: String, lastName: String) async throws -> UserData {
+    return UserData(
+      phoneNumber: "998990573713",
+      email: "mock@test.com",
+      firstName: firstName,
+      lastName: lastName,
+      userId: "mock123",
+      status: "active"
+    )
   }
 }
 

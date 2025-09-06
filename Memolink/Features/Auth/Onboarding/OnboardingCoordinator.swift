@@ -34,12 +34,4 @@ final class OnboardingCoordinator {
   func showSuccess(_ message: LocalizedStringKey) {
     toastService.showSuccess(message)
   }
-  
-  func showWarning(_ message: LocalizedStringKey) {
-    toastService.showWarning(message)
-  }
-  
-  func showInfo(_ message: LocalizedStringKey) {
-    toastService.showInfo(message)
-  }
 }

@@ -1,56 +1,38 @@
 import SwiftUI
 
 @Observable
-final class PhoneNumberVM: PhoneFormatter {
-  var isLoading = false
+final class PhoneNumberVM: BaseViewModel, PhoneFormatter {
   var rawPhone: String = "998"
   var displayPhone: String = "+998"
-  var isValid: Bool { rawPhone.count == 12 }
   
-  private let router: OnboardingCoordinator
-  
-  init(router: OnboardingCoordinator) {
-    self.router = router
+  override init(router: OnboardingCoordinator) {
+    super.init(router: router)
   }
   
   func next() {
-    guard isValid else {
-      router.showError(RegisterToast.invalidPhone.description)
-      return
-    }
+    guard validate(ValidationHelper.validatePhone(rawPhone)) else { return }
     checkUserType()
   }
   
   private func checkUserType() {
-    isLoading = true
+    startLoading()
     
     Task { @MainActor in
       do {
-        let response = try await router.authService.checkUserType(phone: rawPhone)
-        
+        let response = try await authService.checkUserType(phone: rawPhone)
         if response.userType == "NEW_USER" {
           router.store.phone = rawPhone
-          router.showSuccess(RegisterToast.otpSent.description)
+          showSuccess(.otpSent)
           router.navigate(to: .verificationCode)
         } else {
           router.store.phone = rawPhone
-          router.showError(RegisterToast.userExists.description)
+          router.showError(AppToast.userExists.message)
           router.navigateToRoot()
         }
       } catch {
-        let registerError = mapError(error)
-        router.showError(registerError.description)
+        handleError(error)
       }
-      isLoading = false
-    }
-  }
-  
-  private func mapError(_ error: Error) -> RegisterToast {
-    switch error {
-    case URLError.notConnectedToInternet, URLError.timedOut:
-      return .networkError
-    default:
-      return .serverError
+      stopLoading()
     }
   }
 }

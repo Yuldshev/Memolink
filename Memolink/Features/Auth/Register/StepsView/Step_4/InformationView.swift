@@ -27,15 +27,6 @@ struct InformationView: View {
           LabelTextField(title: "Last name", text: $vm.lastName, textContentType: .familyName)
             .focused($focusedField, equals: .lastName)
             .submitLabel(.next)
-            .onSubmit { focusedField = .email }
-          LabelTextField(
-            title: "Email",
-            text: $vm.email,
-            keyboardType: .emailAddress,
-            textContentType: .emailAddress
-          )
-            .focused($focusedField, equals: .email)
-            .submitLabel(.done)
             .onSubmit { focusedField = nil }
         }
       }
@@ -45,7 +36,7 @@ struct InformationView: View {
 
 // MARK: - Focus Field
 private enum Field {
-  case firstName, lastName, email
+  case firstName, lastName
 }
 
 // MARK: - Preview

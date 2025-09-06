@@ -4,9 +4,6 @@
     "" : {
 
     },
-    "Account temporarily blocked" : {
-
-    },
     "After %llds, you can get the new code" : {
       "localizations" : {
         "ru" : {
@@ -151,22 +148,6 @@
         }
       }
     },
-    "Email" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Электронная почта"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elektron pochta"
-          }
-        }
-      }
-    },
     "Email is required" : {
       "localizations" : {
         "ru" : {
@@ -279,6 +260,22 @@
         }
       }
     },
+    "First name must be at least 2 characters" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя должно содержать не менее 2 символов"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ism kamida 2 ta belgidan iborat bo'lishi kerak"
+          }
+        }
+      }
+    },
     "Get code" : {
       "localizations" : {
         "ru" : {
@@ -311,9 +308,6 @@
         }
       }
     },
-    "Invalid verification code" : {
-
-    },
     "Last name" : {
       "localizations" : {
         "ru" : {
@@ -342,6 +336,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Familiya majburiy"
+          }
+        }
+      }
+    },
+    "Last name must be at least 2 characters" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фамилия должна содержать не менее 2 символов"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Familiya kamida 2 ta belgidan iborat bo'lishi kerak"
           }
         }
       }
@@ -426,18 +436,18 @@
         }
       }
     },
-    "Password must be at least 6 characters" : {
+    "Password must contain at least 8 characters, uppercase, lowercase letters and number" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пароль должен содержать минимум 6 символов"
+            "value" : "Пароль должен содержать не менее 8 символов, заглавные, строчные буквы и цифру"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parol kamida 6 ta belgidan iborat bo'lishi kerak"
+            "value" : "Parol kamida 8 ta belgi, katta, kichik harflar va raqamdan iborat bo'lishi kerak"
           }
         }
       }
@@ -490,6 +500,22 @@
         }
       }
     },
+    "Phone number is required" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номер телефона обязателен"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telefon raqami majburiy"
+          }
+        }
+      }
+    },
     "Pictures, emotions, moments — all for you" : {
       "localizations" : {
         "ru" : {
@@ -507,7 +533,20 @@
       }
     },
     "Please check your internet connection" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверьте подключение к интернету"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Internet aloqangizni tekshiring"
+          }
+        }
+      }
     },
     "Please enter a valid email" : {
       "localizations" : {
@@ -573,11 +612,21 @@
         }
       }
     },
-    "Server temporarily unavailable. Try again later" : {
-
-    },
-    "Session expired. Please login again" : {
-
+    "Server temporarily unavailable. Please try again later" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер временно недоступен. Попробуйте позже"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server vaqtinchalik ishlamaydi. Keyinroq urinib ko'ring"
+          }
+        }
+      }
     },
     "Sign In" : {
       "localizations" : {
@@ -643,18 +692,34 @@
         }
       }
     },
-    "SMS code sent to your phone number" : {
+    "SMS code must be 5 digits" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "СМС код отправлен на ваш номер"
+            "value" : "SMS код должен состоять из 5 цифр"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SMS kod raqamizga yuborildi"
+            "value" : "SMS kod 5 ta raqamdan iborat bo'lishi kerak"
+          }
+        }
+      }
+    },
+    "SMS code sent your phone number" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SMS код отправлен на ваш номер телефона"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SMS kod telefon raqamingizga yuborildi"
           }
         }
       }

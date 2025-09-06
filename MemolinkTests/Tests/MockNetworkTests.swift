@@ -41,7 +41,7 @@ final class MockNetworkTests: XCTestCase {
     )
     
     let decoder = JSONDecoder()
-    let apiResponse = try decoder.decode(APIResponse<LoginData>.self, from: mockSession.data!)
+    let apiResponse = try decoder.decode(APIResponse<TokenData>.self, from: mockSession.data!)
     
     XCTAssertTrue(apiResponse.success)
     XCTAssertEqual(apiResponse.data?.accessToken, "mock_token")
@@ -71,7 +71,7 @@ final class MockNetworkTests: XCTestCase {
     )
     
     let decoder = JSONDecoder()
-    let apiResponse = try decoder.decode(APIResponse<LoginData>.self, from: mockSession.data!)
+    let apiResponse = try decoder.decode(APIResponse<TokenData>.self, from: mockSession.data!)
     
     XCTAssertFalse(apiResponse.success)
     XCTAssertEqual(apiResponse.message, "Invalid credentials")
@@ -94,7 +94,7 @@ final class MockNetworkTests: XCTestCase {
     )
     
     let decoder = JSONDecoder()
-    XCTAssertThrowsError(try decoder.decode(APIResponse<LoginData>.self, from: mockSession.data!)) { error in
+    XCTAssertThrowsError(try decoder.decode(APIResponse<TokenData>.self, from: mockSession.data!)) { error in
       XCTAssertTrue(error is DecodingError)
     }
   }
